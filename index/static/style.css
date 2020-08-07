@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Waiting+for+the+Sunrise");
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+.form-box{
+	margin: 20px auto;
+	border: 1px solid black;
+	padding: 10px;
+}
+
+.form-title{
+	text-align: center;
+	font-family: "Permanent Marker";
+}
+
+.form-control{
+	font-family: "Poppins";
+}
+
+.error-message{
+	color: red;
+	font-family: "Waiting for the Sunrise";
+}
+
+.not-loggedin{
+	margin-top: 20px;
+}
