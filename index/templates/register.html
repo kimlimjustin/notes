@@ -9,7 +9,7 @@
 {% endblock %}
 {% block body %}
 <form class="form-box container" method="post" action="{% url 'register' %}">
-	<h1 class="form-title">Register</h1><hr>
+	<h1 class="form-title">Register</h1>{% if message %}<h4 class="error-message">{{message}}</h4>{% endif %}<hr>
 	{% csrf_token %}
 	<div class="form-group">
 		Username:

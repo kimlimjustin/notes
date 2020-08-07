@@ -3,11 +3,19 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from .models import User
+from .models import User, Note
 # Create your views here.
 
 def index(request):
-	return render(request, "index.html")
+	notes = None
+	totalnotes = None
+	if request.user.is_authenticated:
+		notes = Note.objects.filter(creator = request.user)
+		totalnotes = notes.count()
+	return render(request, "index.html", {
+		"notes": notes,
+		"totalnotes": totalnotes
+		})
 
 def login_view(request):
     if request.method == "POST":
@@ -53,3 +61,16 @@ def register(request):
 def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('index'))
+
+def create(request):
+	if request.method == "POST":
+		title = request.POST["title"]
+		note = request.POST['note']
+		this_note = Note(title = title, creator = request.user, note = note)
+		this_note.save()
+		return HttpResponseRedirect(reverse('note', args = [this_note.id]))
+	else:
+		return render(request, "create.html")
+
+def note(request, id):
+	return HttpResponse(id)
