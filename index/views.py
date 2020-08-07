@@ -73,4 +73,18 @@ def create(request):
 		return render(request, "create.html")
 
 def note(request, id):
-	return HttpResponse(id)
+	note = Note.objects.filter(pk = id)
+	if note.count() == 0 or not request.user.is_authenticated:
+		return render(request, "error.html")
+	note = note[0]
+	if note.creator != request.user:
+		return render(request, "error.html")
+	if request.method == "POST":
+		this_note = Note.objects.get(pk = id)
+		this_note.title = request.POST["title"]
+		this_note.note = request.POST["note"]
+		this_note.save()
+		return HttpResponseRedirect(reverse('index'))
+	return render(request, "note.html", {
+		"note": note
+		})
